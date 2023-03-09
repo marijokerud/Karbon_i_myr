@@ -2,6 +2,11 @@
 
 library(usethis)
 
+use_git_config(
+  user.name = "marijokerud", 
+  user.email = "mari.jokerud@gmail.com"
+)
+
 #GitHub needs to validate who you are before you can connect it and RStudio. 
 #We can do this by generating and saving a Personal Access Token (PAT). You need to do this once for every RStudio project.
 usethis::create_github_token()
@@ -14,3 +19,6 @@ gitcreds::gitcreds_set()
 
 #will add various files to your global .gitignore file (Section 2.9) to reduce the chance of you leaking passwords, making git safer to use.
 git_vaccinate()
+
+#Create git repo
+usethis::use_git()
