@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rdata
+.httr-oauth
+.DS_Store
+#Exluding files
+*.xlsx 
+*.docx
+*.pdf
+*.png
+*.psd
