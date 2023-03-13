@@ -1,18 +1,21 @@
 #LOAD DATA
 library(readxl)
 library(tidyverse)
+library(dplyr)
 library(labdsv)
 
-artslinjer <- read_excel(path = "data/Data_Kaldvassmyra.xlsx", sheet = "Data", col_names = TRUE)
-tv_verdi <- read_excel(path = "data/Data_Kaldvassmyra.xlsx", sheet = "Ind.verdi_GAD_TV",range = "A1:L53" , col_names = TRUE)
-plassering <- read_excel(path = "data/Data_Kaldvassmyra.xlsx", sheet = "Plassering", col_names = TRUE)
+data.all <- read_excel(path = "data/CarbonNumbers.xlsx", sheet = "CarbonNumbers", col_names = TRUE)
+wetlands.all <- read_excel(path = "data/CarbonNumbers.xlsx", sheet = "Wetlands", col_names = TRUE)
+
 
 # DATA CLEANING
 
 ## Functional group
-fungroupK <- artslinjer %>% 
-  select(Art, Funksjonell_gruppe) %>% 
-  distinct()
+wetlands <- wetlands.all %>% 
+  filter(grepl('included', exl)) %>% 
+  select(Ecosystem2, RLNT, StorageC_t.ha) %>% 
+  group_by(Ecosystem2) %>% 
+  summarise(mean(StorageC_t.ha))
 
 #### COMMUNITY MATRIX every 10 m
 pinpoint_matrix<- artslinjer %>% 

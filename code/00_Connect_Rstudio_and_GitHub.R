@@ -22,3 +22,7 @@ git_vaccinate()
 
 #Create git repo
 usethis::use_git()
+
+#Once you have committed at least one file, you can create a repo on GitHub.
+
+usethis::use_github()
