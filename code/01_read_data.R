@@ -10,12 +10,36 @@ wetlands.all <- read_excel(path = "data/CarbonNumbers.xlsx", sheet = "Wetlands",
 
 # DATA CLEANING
 
-## Functional group
+#Red listed ecosystems 
+PLOT.wetlands_RLNT <- wetlands.all %>% 
+  filter(grepl('included', exl)) %>% 
+  select(RLNT, StorageC_t.ha) %>% 
+  drop_na()
+
+wetlands_RLNT <- PLOT.wetlands_RLNT
+  group_by(RLNT) %>% 
+  summarise(mean = mean(StorageC_t.ha), sd = sd(StorageC_t.ha), min = min(StorageC_t.ha), max = max(StorageC_t.ha)) %>% 
+  rename(Ecosystem2 = RLNT )
+
+#Ecosystems
+PLOT.wetlands <- wetlands.all %>% 
+  filter(grepl('included', exl)) %>% 
+  select(Ecosystem2, StorageC_t.ha) %>% 
+  drop_na()
+
+wetlands <- PLOT.wetlands
+  group_by(Ecosystem2) %>% 
+  summarise(mean = mean(StorageC_t.ha), sd = sd(StorageC_t.ha), min = min(StorageC_t.ha), max = max(StorageC_t.ha)) %>% 
+  bind_rows(wetlands_RLNT)
+
+
 wetlands <- wetlands.all %>% 
   filter(grepl('included', exl)) %>% 
-  select(Ecosystem2, RLNT, StorageC_t.ha) %>% 
+  select(Ecosystem2, StorageC_t.ha) %>% 
+  drop_na() %>% 
   group_by(Ecosystem2) %>% 
-  summarise(mean(StorageC_t.ha))
+  summarise(mean = mean(StorageC_t.ha), sd = sd(StorageC_t.ha), min = min(StorageC_t.ha), max = max(StorageC_t.ha))
+
 
 #### COMMUNITY MATRIX every 10 m
 pinpoint_matrix<- artslinjer %>% 
